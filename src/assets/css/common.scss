@@ -1,0 +1,40 @@
+$hoverBorderColor:#1890ff;
+// $hoverBorderColor:#8bc34a;
+
+@mixin onePxBorder ($color:$hoverBorderColor) {
+    border: 0.01rem solid $color;
+    @include bbox;
+}
+
+@mixin bbox() {
+    box-sizing: border-box;
+}
+
+// 宽高 
+@mixin swh($width:100%, $height:100%) {
+    width: $width;
+    height: $height;
+}
+
+
+// 设置字体
+@mixin setFont($size, $color:#FFFFFF, $family:'Microsoft YaHei', $weight:400) {
+    font-size: $size;
+    font-family: $family;
+    color: $color;
+    font-weight: $weight;
+}
+
+//flex居中设定
+@mixin flexCenter($direction:row, $transverse:center, $portrait:center) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $transverse;
+    align-items: $portrait;
+}
+
+// 背景图片
+@mixin backimageSet($url, $width:100%, $height:100%) {
+    background: url($url) no-repeat center;
+    background-size: $width $height;
+}

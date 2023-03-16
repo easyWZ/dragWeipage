@@ -1,0 +1,215 @@
+$bottomBUyHeight:60px;
+
+.drag-content-wrap {
+    font-size: 16px;
+    padding: 20px;
+    background: rgb(238, 238, 238);
+
+    .base-draggable-style {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .drag-padding-wrap {
+        display: flex;
+        // justify-content: space-between;
+        width: 100%;
+        height: 800px;
+
+        .empty-deal-wrap {
+            height: 200px;
+            width: 100%
+        }
+
+        .have-assembly-wrap {
+            width: 100%;
+        }
+
+        .hover-gac {
+            &:hover {
+                @include onePxBorder;
+                cursor: pointer;
+            }
+        }
+
+        .top-title-mark {
+            @include bbox;
+            padding: 20px;
+            @include setFont(0.14rem, black);
+            font-weight: bold;
+            height: 64px;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .drag-use-symbol {
+                margin-left: 0.2rem;
+                color: #ccc;
+            }
+        }
+
+        .mg-5 {
+            margin-left: 5px;
+            color: $hoverBorderColor;
+        }
+
+        .left-item-wrap {
+            width: 300px;
+            border: 0.01rem solid #ccc;
+            background: #fff;
+
+            .base-drag-wrap {
+                padding-left: 10px;
+
+                .ghostClass {
+                    @include onePxBorder;
+                }
+
+                .chosenClass {
+                    background-color: #f1f1f1;
+                }
+            }
+
+            .item-box {
+                width: 80px;
+                height: 80px;
+                @include onePxBorder(#ccc);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center !important;
+                margin: 0 0 10px 10px;
+                cursor: move;
+
+                &:hover {
+                    border-color: $hoverBorderColor;
+                }
+
+                img {
+                    @include swh(36px, 36px);
+                }
+
+                .item-title {
+                    font-size: 12px;
+                    color: #333;
+                    margin: 0;
+                    margin-top: 5px;
+                }
+            }
+        }
+
+        .center-item-wrap {
+            width: 375px;
+            @include onePxBorder(#ccc);
+            margin: 0 10px;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+
+            .top-img {
+                width: 100%;
+                height: 64px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .drag-detail-items {
+                .all-items-wrap {
+                    .items-show {
+                        .details-item {
+
+                            // .items-bg-part {}
+
+                            .kv-part {
+                                width: 100%;
+                                height: 300px;
+                                background: #ccc;
+                                @include flexCenter;
+
+                                .kv-img {
+                                    width: 100%;
+                                    height: 100%;
+                                }
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+            .assembly-alone-view-wrap {
+                width: 100%;
+                position: relative;
+
+                .close-border {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    cursor: pointer;
+
+                    img {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+
+            .drag-pre-view-wrap {
+                flex: 1;
+                overflow: auto;
+                // background-color: rgb(245, 245, 245);
+                padding-bottom: $bottomBUyHeight;
+
+                &::-webkit-scrollbar {
+                    width: 0;
+                    height: 0;
+                }
+            }
+        }
+
+        .right-item-wrap {
+            width: 450px;
+            border: 0.01rem solid #ccc;
+            background: #fff;
+
+            .module-set-option {
+                padding: 0 20px;
+            }
+        }
+    }
+
+    .assembly-top-wrap {
+        position: relative;
+    }
+
+    .assembly-bottom-wrap {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .current-choose-this-border-box-show {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        @include onePxBorder;
+        border-width: 2px;
+    }
+
+    .save-wrap{
+        margin-top: 20px;
+    }
+    .mg-r-20{
+        margin-right: 20px;
+    }
+
+}

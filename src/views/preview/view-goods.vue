@@ -1,0 +1,28 @@
+<template>
+  <div class="goods-wrap">商品区域</div>
+</template>
+<script setup lang="ts">
+import { ref, toRefs, watch } from "vue";
+const props = defineProps({
+  allAssembly: Object,
+  assid: Object,
+});
+let currentAssembly = ref({ checked: false });
+let { allAssembly, assid } = toRefs(props);
+
+const findCurrentOption = () => {
+  let id = assid?.value;
+  currentAssembly = (allAssembly as any).value.find((item: { id: object }) => {
+    return item.id == id;
+  });
+};
+findCurrentOption();
+</script>
+<style lang="scss" scoped>
+.goods-wrap {
+  @include flexCenter;
+  width: 100%;
+  height: 200px;
+  background-color: #ccc;
+}
+</style>

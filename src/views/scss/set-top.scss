@@ -1,0 +1,42 @@
+.alone-item-set-wrap {
+    font-size: 14px;
+
+    .title-set-part {
+
+        font-weight: 600;
+
+    }
+
+    .option-wrap {
+        margin-top: 20px;
+        display: flex;
+        color: #333;
+        align-items: center;
+
+        .left-container {
+            width: 60px;
+            margin-right: 10px;
+        }
+
+        .right-container {
+            display: flex;
+            align-items: center;
+            flex: 1;
+
+            .r-c-right-wrap {
+                // width: 100px;
+                flex: 1;
+            }
+
+            .right-box-remark {
+                color: #999;
+            }
+        }
+    }
+    .pageTitle-width{
+        width: 250px;
+    }
+    .mg-l-20{
+        margin-left: 20px;
+    }
+}
