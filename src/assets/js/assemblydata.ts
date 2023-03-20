@@ -22,7 +22,7 @@ const state = reactive({
       checked: true,
       option: {
         width: 100,
-        src: "",
+        src: "/img/item/kv-1.jpg",
       },
     },
     {
@@ -37,6 +37,8 @@ const state = reactive({
     {
       name: "VIN",
       unique: "vin",
+      repeatNumber: 1,
+      isMaxRepeat: false,
       component: vinComponent,
       src: imgUrl + "vin.png",
       acSrc: imgUrl + "ac-vin.png",
@@ -44,9 +46,11 @@ const state = reactive({
       checked: true,
     },
     {
+      name: "活动规则",
       component: ruleComponent,
       unique: "rule",
-      name: "活动规则",
+      repeatNumber: 1,
+      isMaxRepeat: false,
       src: imgUrl + "rule.png",
       acSrc: imgUrl + "ac-rule.png",
       id: 1003,
@@ -64,18 +68,28 @@ const state = reactive({
   ],
 });
 
-const addRepeactAssembly = (id: Number, data: any[]) => {
-  let addObjectOrigin = state.list.find((item: any) => {
-    return item.id == id;
+const addRepeactAssembly = (id: any, data: any[]) => {
+  // 校验name不同
+  let appendObj: any = state.list.find((slist) => {
+    return slist.id == id;
   });
+  let slistzindex = 0;
+  state.list.forEach((slist: any, sindex: number) => {
+    if (slist.name == appendObj.name) {
+      slistzindex = sindex;
+    }
+  });
+  let addObjectOrigin = state.list[slistzindex];
+  // 深复制
   let dealJsonObj = JSON.parse(JSON.stringify(addObjectOrigin));
   // 暂时用随机数-后续处理保证唯一性
   let mathRan: any = Math.random() * 10000;
   dealJsonObj.id = parseInt(mathRan);
   dealJsonObj.name = dealJsonObj.name + dealJsonObj.id;
   // 默认值处理
-  dealJsonObj.option = dealJsonObj.unique == "kv" ? { width: 100 } : {};
-  // 追加可复用组件
+  dealJsonObj.option =
+    dealJsonObj.unique == "kv" ? { width: 100, src: "/img/item/kv-1.jpg" } : {};
+  // 组件加载
   dealJsonObj.component =
     id == 1001
       ? kvComponent
@@ -86,7 +100,12 @@ const addRepeactAssembly = (id: Number, data: any[]) => {
       : id == 1005
       ? vinComponent
       : "";
-  data.push(dealJsonObj);
+  // 深复制数据替换浅复制产生数据
+  data.forEach((dItem, index) => {
+    if (dItem.name == appendObj.name) {
+      data[index] = dealJsonObj;
+    }
+  });
 };
 
 export { state, addRepeactAssembly };

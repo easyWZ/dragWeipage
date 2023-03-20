@@ -15,13 +15,13 @@ const props = defineProps({
 let currentAssembly = ref({ checked: false });
 let { allAssembly, assid } = toRefs(props);
 
-const findCurrentOption = () => {
-  let id = assid?.value;
-  currentAssembly = (allAssembly as any).value.find((item: { id: object }) => {
-    return item.id == id;
-  });
-};
-findCurrentOption();
+// const findCurrentOption = () => {
+//   let id = assid?.value;
+//   currentAssembly = (allAssembly as any).value.find((item: { id: object }) => {
+//     return item.id == id;
+//   });
+// };
+// findCurrentOption();
 </script>
 <style lang="scss" scoped>
 .just-buy-option-part {

@@ -24,7 +24,6 @@
             flex: 1;
 
             .r-c-right-wrap {
-                // width: 100px;
                 flex: 1;
             }
 
@@ -33,10 +32,28 @@
             }
         }
     }
-    .pageTitle-width{
+
+    .pageTitle-width {
         width: 250px;
     }
-    .mg-l-20{
+
+    .mg-l-20 {
         margin-left: 20px;
     }
+
+    .demo-hover {
+        margin-left: 10px;
+        color: $hoverBorderColor;
+        cursor: pointer;
+    }
+
+}
+
+.demo-img {
+    width: 210px;
+    height: 150px;
+}
+
+.mg-l-70 {
+    margin-left: 70px;
 }

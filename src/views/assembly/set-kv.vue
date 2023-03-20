@@ -10,8 +10,38 @@
       <section class="left-container"></section>
       <section class="right-container"></section>
     </div> -->
+    <!--  -->
     <div class="option-wrap">
-      <!-- 上传图片 -->
+      <section class="left-container">上传图片</section>
+      <section class="right-container">
+        <!--  -->
+        <div class="upload-img-wrap">
+          <div class="show-file-wrap">
+            <img
+              class="file-img-show"
+              @click="contactFileClick('fileInput')"
+              :src="currnetShowSetData.option.src"
+              alt=""
+            />
+            <div
+              class="deal-empty-img"
+              @click="contactFileClick('fileInput')"
+              v-show="!currnetShowSetData.option.src"
+            >
+              <PlusCircleOutlined class="add-css" />
+            </div>
+          </div>
+          <input
+            id="fileInput"
+            class="file-upload-input"
+            type="file"
+            @change="changeImg($event, 1)"
+          />
+        </div>
+      </section>
+    </div>
+    <!--  -->
+    <!-- <div class="option-wrap">
       <section class="left-container">上传图片</section>
       <section class="right-container">
         <section class="r-c-left-wrap">
@@ -38,7 +68,7 @@
         </section>
         <span class="right-box-remark">可灵活设置大小</span>
       </section>
-    </div>
+    </div> -->
     <!-- 宽度设置 -->
     <div class="option-wrap">
       <section class="left-container">宽度设置</section>
@@ -165,6 +195,23 @@ const handleChange = (info: FileInfo) => {
 //   }
 //   return isJpgOrPng && isLt2M;
 // };
+
+const contactFileClick = (idName: string) => {
+  let fileInput = document.getElementById(idName);
+  fileInput?.click();
+};
+
+const changeImg = (e: any, type: number) => {
+  previewByReader(e.target.files[0], type);
+};
+
+const previewByReader = (file: any, type: number) => {
+  const fileReader = new FileReader();
+  fileReader.readAsDataURL(file);
+  fileReader.onload = (e: any) => {
+    currnetShowSetData.option.src = e.target.result;
+  };
+};
 </script>
 <style lang="scss" scoped>
 @import "../scss/set-kv.scss";

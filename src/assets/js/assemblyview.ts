@@ -19,6 +19,14 @@ const viewstate = reactive({
         title: '',
         placeHolder:'活动页名称',
         bgColor:'#f5f5f5',
+        bgSrc:'',
+        share:{
+          title:'',
+          titlePlaceholder:'分享该页面的时候展示',
+          content:'',
+          contentPlaceholder:'用户通过微信分享给朋友展示',
+          imgUrl:''
+        },
         width:'',
       },
     },

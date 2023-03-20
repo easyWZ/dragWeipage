@@ -3,7 +3,7 @@
     <img
       class="kv-img"
       :style="'width:' + currentAssembly?.option?.width + '%'"
-      src="/img/item/kv-1.jpg"
+      :src="currentAssembly?.option?.src"
       alt=""
     />
   </div>
@@ -40,8 +40,6 @@ watch(
 <style lang="scss" scoped>
 .kv-part {
   width: 100%;
-  height: 300px;
-  background: #ccc;
   @include flexCenter;
 
   .kv-img {

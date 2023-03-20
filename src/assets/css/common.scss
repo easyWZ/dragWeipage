@@ -38,3 +38,49 @@ $hoverBorderColor:#1890ff;
     background: url($url) no-repeat center;
     background-size: $width $height;
 }
+
+// 上传图片
+.upload-img-wrap {
+    position: relative;
+
+    .show-file-wrap {
+        width: 100px;
+        height: 100px;
+        z-index: 0;
+        position: relative;
+        @include onePxBorder;
+
+        border-color: #ccc;
+        cursor: pointer;
+        @include flexCenter;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .deal-empty-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            top: 0;
+            background-color: #fff;
+
+            @include flexCenter;
+
+            .add-css {
+                font-size: 50px;
+                color: #ccc;
+                background: url() no-repeat 100% 100%;
+            }
+
+        }
+
+    }
+
+    .file-upload-input {
+        display: none;
+    }
+}

@@ -40,9 +40,12 @@
                     : ''
                 "
               >
-                <!-- @click="checkItem(index)" -->
                 <img
-                  :src="element.checked ? element.acSrc : element.src"
+                  :src="
+                    element.undraggable || element.isMaxRepeat
+                      ? element.src
+                      : element.acSrc
+                  "
                   alt=""
                   class="item-img"
                 />
@@ -69,7 +72,7 @@
         <!-- 中间件-组件实时预览 -->
         <div
           class="drag-pre-view-wrap"
-          :style="'background-color:' + viewstate.list[0].option?.bgColor"
+          :style="pageStyle(viewstate.list[0].option)"
         >
           <draggable
             :group="{ name: 'assembly', put: true, pull: false }"
@@ -257,56 +260,84 @@ const getKvWidth = (v: any) => {
   });
 };
 
-// 删除
+/**
+ * 删除
+ * @param index
+ */
 const removeThisAssembly = (index: number) => {
+  // 复用数移除
+  let unique = viewstate.list[index].unique;
+  state.list.forEach((slist: any) => {
+    if (slist.unique == unique) {
+      slist.isMaxRepeat = false;
+    }
+  });
+  // 数据移除
   viewstate.list.splice(index, 1);
 };
 
 // 克隆
 const cloneData = (origin: any) => {};
 
+/**
+ * 鼠标移入
+ * @param ele
+ * @param isShow
+ * @param index
+ */
 const showClose = (ele: Object, isShow: boolean, index: number) => {
   (ele as any).isShowClose = isShow;
 };
 
-//拖拽开始的事件
+/**
+ * 首页背景色-背景图设置
+ * @param topSet
+ */
+const pageStyle = (topSet: any) => {
+  let style: string = "";
+  if (topSet?.bgSrc) {
+    style += "background: url(" + topSet?.bgSrc + ") no-repeat 100% 100%;";
+  }
+  if (topSet?.bgColor) {
+    style += "background-color:" + topSet?.bgColor + ";";
+  }
+  return style;
+};
+
+//左侧拖拽开始的事件
 const onLeftStart = (v: any) => {
   // console.log(v, "开始拖拽");
 };
 
-//拖拽结束的事件
-const onLeftEnd = (obj: Object) => {
-  (viewstate.list as any).forEach((elem: any, index: number) => {
-    if (elem === viewstate.list[index + 1]) {
-      // 解决componment加载问题
-      addRepeactAssembly(elem.id, viewstate.list);
-      viewstate.list.splice(index, 1);
+//左侧拖拽结束的事件
+const onLeftEnd = (obj: any) => {
+  let oldIndex = obj.oldIndex;
+  // componment加载
+  addRepeactAssembly(state.list[oldIndex].id, viewstate.list);
+  //拖拽结束处理组件能否继续复用
+  let repeactCount = 0;
+  viewstate.list.forEach((vlist: any) => {
+    if (vlist.unique == state.list[oldIndex].unique) {
+      repeactCount++;
     }
   });
+  let currentdealSateList: any = state.list.find((slist) => {
+    return slist.unique == state.list[oldIndex].unique;
+  });
+  if (currentdealSateList.repeatNumber == repeactCount) {
+    currentdealSateList.isMaxRepeat = true;
+  }
 };
 
-//拖拽开始的事件
+//右侧拖拽开始的事件
 const onStart = (v: any) => {
   // console.log(v, "开始拖拽");
 };
 
-//拖拽结束的事件
+//右侧拖拽结束的事件
 const onEnd = () => {
   // console.log("结束拖拽");
 };
-
-// const checkItem = (index: number) => {
-//   if (!state.list[index].checked) {
-//     currentCheckItem.value = state.list[index];
-//   }
-//   state.list[index].checked = !state.list[index].checked;
-// };
-
-// const changeItem = (id: number) => {
-//   (currentCheckItem as any).value = state.list.find((item) => {
-//     return item.id == id;
-//   });
-// };
 </script>
 <style lang="scss" scoped>
 @import "./scss/assembly.scss";
