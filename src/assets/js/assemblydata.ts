@@ -14,7 +14,7 @@ const state = reactive({
       name: "KV图",
       component: kvComponent,
       unique: "kv",
-      repeatNumber: 1,
+      // repeatNumber: 1,
       isMaxRepeat: false,
       src: imgUrl + "kv.png",
       acSrc: imgUrl + "ac-kv.png",
@@ -82,10 +82,25 @@ const addRepeactAssembly = (id: any, data: any[]) => {
   let addObjectOrigin = state.list[slistzindex];
   // 深复制
   let dealJsonObj = JSON.parse(JSON.stringify(addObjectOrigin));
-  // 暂时用随机数-后续处理保证唯一性
-  let mathRan: any = Math.random() * 10000;
-  dealJsonObj.id = parseInt(mathRan);
-  dealJsonObj.name = dealJsonObj.name + dealJsonObj.id;
+  // 随机数id
+  // let mathRan: any = Math.random() * 10000;
+  // dealJsonObj.id = parseInt(mathRan);
+  // 处理id唯一性
+  let maxId = Math.max.apply(
+    Math,
+    data.map((item) => {
+      return item.id;
+    })
+  );
+  dealJsonObj.id = maxId + 100;
+  // name
+  let repeactModelCount = 0;
+  data.forEach((ditem) => {
+    if (ditem.unique == dealJsonObj.unique) {
+      repeactModelCount++;
+    }
+  });
+  dealJsonObj.name = dealJsonObj.name + "-" + repeactModelCount;
   // 默认值处理
   dealJsonObj.option =
     dealJsonObj.unique == "kv" ? { width: 100, src: "/img/item/kv-1.jpg" } : {};

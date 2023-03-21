@@ -1,7 +1,7 @@
 <template>
   <div class="alone-item-set-wrap">
     <!--  -->
-    <div class="title-set-part">{{ currnetShowSetData.name }}</div>
+    <!-- <div class="title-set-part">{{ currnetShowSetData.name }}</div> -->
     <!-- 页面名称 -->
     <div class="option-wrap">
       <section class="left-container">页面名称</section>
@@ -160,20 +160,20 @@
 </template>
 <script setup lang="ts">
 import { ref, toRefs, watch } from "vue";
-import { viewstate } from "../../assets/js/assemblyview";
-import { useAssemblyDataStore } from "../../stores/assemblyStore";
+// import { viewstate } from "../../assets/js/assemblyview";
 import { PlusSquareOutlined, PlusCircleOutlined } from "@ant-design/icons-vue";
 
-let currnetShowSetData = ref<any>({});
-const assemblyStore = useAssemblyDataStore();
+import { useAssemblyDataStore } from "../../stores/assemblyStore";
 
-const getCurrnetShowSetData = (changeId: number) => {
-  // let id = changeId || assemblyStore.setId;
-  let id = 1000;
-  currnetShowSetData = viewstate.list.find((item: any) => {
-    return item.id == id;
-  });
-};
+const assemblyStore = useAssemblyDataStore();
+let currnetShowSetData = ref<any>({});
+watch(
+  () => assemblyStore.setId,
+  (id: number, oldId) => {
+    currnetShowSetData = assemblyStore.getCurrnetShowSetData();
+  },
+  { immediate: true }
+);
 
 const bgColorChange = (event: any) => {
   currnetShowSetData.option.bgColor = event.target.value;
@@ -205,20 +205,6 @@ const previewByReader = (file: any, type: number) => {
     }
   };
 };
-
-watch(
-  () => assemblyStore.setId,
-  (id: number, oldId) => {
-    getCurrnetShowSetData(id);
-  },
-  { immediate: true }
-);
-
-// const props = defineProps({
-//   title: String,
-// });
-// const pageTitle = ref<string>("");
-// let { title } = toRefs(props);
 </script>
 <style lang="scss" scoped>
 @import "../scss/set-top.scss";

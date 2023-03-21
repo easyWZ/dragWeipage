@@ -23,6 +23,6 @@ let { allAssembly, assid } = toRefs(props);
   @include flexCenter;
   width: 100%;
   height: 200px;
-  background-color: #ccc;
+  // background-color: #ccc;
 }
 </style>

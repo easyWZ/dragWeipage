@@ -3,14 +3,17 @@
     <div class="vin-line-box">
       <section class="l-vin-title">车辆VIN号</section>
       <section class="c-line"></section>
-      <section class="select-tip">请选择</section>
-      <section class="select-icon"></section>
+      <section class="select-tip">LSGWK52C02S164563</section>
+      <section class="select-icon">
+        <DownOutlined />
+      </section>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref, toRefs, watch, onMounted } from "vue";
 import { viewstate } from "../../assets/js/assemblyview";
+import { DownOutlined } from "@ant-design/icons-vue";
 const props = defineProps({
   allAssembly: Object,
   assid: Object,
@@ -48,13 +51,13 @@ watch(
     width: 100%;
     height: 100%;
     display: flex;
-    // align-items: center;
-    padding-top: 5px;
+    align-items: center;
+    // padding-top: 5px;
     font-size: 14px;
     background: #fff;
     border: 1px solid #fff;
     color: #000;
-    box-shadow: -5.33px -5.33px 5.33px #ccc inset;
+    // box-shadow: -5.33px -5.33px 5.33px #ccc inset;
     border-radius: 5px;
     position: relative;
     .l-vin-title{
@@ -66,7 +69,7 @@ watch(
       background-color: #ccc;
       margin-left: 10px;
       position: absolute;
-      left: 100px;
+      left: 80px;
       top: 0;
     }
     .select-tip{
@@ -76,7 +79,9 @@ watch(
       // margin-left: 50px;
     }
     .select-icon{
-
+      position: absolute;
+      right: 0;
+      margin-right: 24px;
     }
   }
 }

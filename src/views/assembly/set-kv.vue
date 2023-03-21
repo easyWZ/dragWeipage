@@ -4,12 +4,12 @@
   <!-- action="https://www.mocky.io/v2/5cc8019d300000980a055e76" -->
   <div class="alone-item-set-wrap">
     <!-- 标题 -->
-    <div class="title-set-part">{{ currnetShowSetData.name }}-配置</div>
+    <!-- <div class="title-set-part">{{ currnetShowSetData.name }}-配置</div> -->
     <!-- 选项配置 -->
-    <!-- <div class="option-wrap">
+  <!-- <div class="option-wrap">
       <section class="left-container"></section>
       <section class="right-container"></section>
-    </div> -->
+                        </div> -->
     <!--  -->
     <div class="option-wrap">
       <section class="left-container">上传图片</section>
@@ -17,31 +17,18 @@
         <!--  -->
         <div class="upload-img-wrap">
           <div class="show-file-wrap">
-            <img
-              class="file-img-show"
-              @click="contactFileClick('fileInput')"
-              :src="currnetShowSetData.option.src"
-              alt=""
-            />
-            <div
-              class="deal-empty-img"
-              @click="contactFileClick('fileInput')"
-              v-show="!currnetShowSetData.option.src"
-            >
+            <img class="file-img-show" @click="contactFileClick('fileInput')" :src="currnetShowSetData.option.src"
+              alt="" />
+            <div class="deal-empty-img" @click="contactFileClick('fileInput')" v-show="!currnetShowSetData.option.src">
               <PlusCircleOutlined class="add-css" />
             </div>
           </div>
-          <input
-            id="fileInput"
-            class="file-upload-input"
-            type="file"
-            @change="changeImg($event, 1)"
-          />
+          <input id="fileInput" class="file-upload-input" type="file" @change="changeImg($event, 1)" />
         </div>
       </section>
     </div>
     <!--  -->
-    <!-- <div class="option-wrap">
+  <!-- <div class="option-wrap">
       <section class="left-container">上传图片</section>
       <section class="right-container">
         <section class="r-c-left-wrap">
@@ -68,7 +55,7 @@
         </section>
         <span class="right-box-remark">可灵活设置大小</span>
       </section>
-    </div> -->
+                        </div> -->
     <!-- 宽度设置 -->
     <div class="option-wrap">
       <section class="left-container">宽度设置</section>
@@ -76,22 +63,11 @@
         <div class="r-c-right-wrap">
           <a-row>
             <a-col :span="20">
-              <a-slider
-                v-model:value="currnetShowSetData.option.width"
-                :min="50"
-                :max="100"
-                :step="10"
-              />
+              <a-slider v-model:value="currnetShowSetData.option.width" :min="50" :max="100" :step="10" />
             </a-col>
             <a-col :span="4">
-              <a-input-number
-                v-model:value="currnetShowSetData.option.width"
-                :formatter="(value: any) => `${value}%`"
-                :min="50"
-                :max="100"
-                :step="10"
-                style="margin-left: 0.16rem"
-              />
+              <a-input-number v-model:value="currnetShowSetData.option.width" :formatter="(value: any) => `${value}%`"
+                :min="50" :max="100" :step="10" style="margin-left: 0.16rem" />
             </a-col>
           </a-row>
         </div>
@@ -103,10 +79,55 @@
 <script lang="ts" setup>
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
-import { ref, toRefs, watch } from "vue";
-import { viewstate } from "../../assets/js/assemblyview";
+import { ref, watch } from "vue";
 import { useAssemblyDataStore } from "../../stores/assemblyStore";
 
+const assemblyStore = useAssemblyDataStore();
+let currnetShowSetData = ref<any>({});
+watch(
+  () => assemblyStore.setId,
+  (id: number, oldId) => {
+    currnetShowSetData = assemblyStore.getCurrnetShowSetData();
+  },
+  { immediate: true }
+);
+
+const contactFileClick = (idName: string) => {
+  let fileInput = document.getElementById(idName);
+  fileInput?.click();
+};
+
+const changeImg = (e: any, type: number) => {
+  previewByReader(e.target.files[0], type);
+};
+
+const previewByReader = (file: any, type: number) => {
+  const fileReader = new FileReader();
+  fileReader.readAsDataURL(file);
+  fileReader.onload = (e: any) => {
+    currnetShowSetData.option.src = e.target.result;
+  };
+};
+
+// const emit = defineEmits(["changeWidth"]);
+// const changeWidth = () => {
+//   //传递给父组件
+//   // emit("changeWidth", kvWidth);
+//   let id = assemblyStore.setId;
+//   let currentAssemblyData: any = viewstate.list.find((item: any) => {
+//     return item.id == id;
+//   });
+// };
+// 
+let fileList = ref([]);
+let loading = ref<boolean>(false);
+let imageUrl = ref<string>("./img/item/kv-1.jpg");
+
+function getBase64(img: Blob, callback: (base64Url: string) => void) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+}
 interface FileItem {
   uid: string;
   name?: string;
@@ -121,49 +142,6 @@ interface FileItem {
 interface FileInfo {
   file: FileItem;
   fileList: FileItem[];
-}
-
-// const props = defineProps({
-//   sendThisItemData: Object,
-// });
-// let { sendThisItemData } = toRefs(props);
-let currnetShowSetData = ref<any>({});
-const assemblyStore = useAssemblyDataStore();
-
-const getCurrnetShowSetData = (changeId: number) => {
-  let id = changeId || assemblyStore.setId;
-  currnetShowSetData = viewstate.list.find((item: any) => {
-    return item.id == id;
-  });
-};
-
-watch(
-  () => assemblyStore.setId,
-  (id: number, oldId) => {
-    getCurrnetShowSetData(id);
-  },
-  { immediate: true }
-);
-
-let fileList = ref([]);
-let loading = ref<boolean>(false);
-let imageUrl = ref<string>("./img/item/kv-1.jpg");
-
-// const emit = defineEmits(["changeWidth"]);
-
-const changeWidth = () => {
-  //传递给父组件
-  // emit("changeWidth", kvWidth);
-  let id = assemblyStore.setId;
-  let currentAssemblyData: any = viewstate.list.find((item: any) => {
-    return item.id == id;
-  });
-};
-
-function getBase64(img: Blob, callback: (base64Url: string) => void) {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result as string));
-  reader.readAsDataURL(img);
 }
 
 const handleChange = (info: FileInfo) => {
@@ -195,23 +173,6 @@ const handleChange = (info: FileInfo) => {
 //   }
 //   return isJpgOrPng && isLt2M;
 // };
-
-const contactFileClick = (idName: string) => {
-  let fileInput = document.getElementById(idName);
-  fileInput?.click();
-};
-
-const changeImg = (e: any, type: number) => {
-  previewByReader(e.target.files[0], type);
-};
-
-const previewByReader = (file: any, type: number) => {
-  const fileReader = new FileReader();
-  fileReader.readAsDataURL(file);
-  fileReader.onload = (e: any) => {
-    currnetShowSetData.option.src = e.target.result;
-  };
-};
 </script>
 <style lang="scss" scoped>
 @import "../scss/set-kv.scss";
